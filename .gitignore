@@ -1,0 +1,9 @@
+*.idea
+data/
+sign_file/
+__pycache__
+ori_data
+select_data*/
+test_video/
+venv/
+test/
