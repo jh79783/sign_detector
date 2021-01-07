@@ -3,9 +3,10 @@ import cv2
 import numpy as np
 import os
 import params.params as params
+from config import Config
 
 
-save_path = "D:/py-project/select_data_7"
+save_path = Config.save_path
 selected_files = dict()
 TARGET_COUNT_PER_CATEGORY = 7
 FLANN_INDEX_LSH = 6
@@ -62,19 +63,19 @@ def main():
             cv2.imwrite(file_name, save_img)
             count += 1
         count = 1
-
+    print("!!!END!!!")
 
 def match_images(qimg, img_file, category):
     T_count = 0
     F_count = 0
     file = None
     orb = cv2.ORB_create()
-    q_img = cv2.imread(qimg, cv2.COLOR_BGR2GRAY)
-    q_img = cv2.resize(q_img, (350, 350))
+    q_img = cv2.imread(qimg)
+    q_img = cv2.resize(q_img, (640, 480), interpolation=cv2.INTER_AREA)
     kp_q, des_q = orb.detectAndCompute(q_img, None)
     for file in img_file:
         img = cv2.imread(file, cv2.COLOR_BGR2GRAY)
-        img = cv2.resize(img, (350, 350))
+        img = cv2.resize(img, (640, 480), interpolation=cv2.INTER_AREA)
         kp_i, des_i = orb.detectAndCompute(img, None)
         # print(file)
         TF = fla(kp_q, kp_i, des_i, des_q, category)
